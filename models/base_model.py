@@ -20,7 +20,7 @@ class BaseModel:
     id = str(uuid.uuid4())
     create_at = datetime.now()
 
-    def __init__(self, my_number=None, name=None,):
+    def __init__(self, *args, **kwargs):
         """
         initialition
         Attribures:
@@ -28,9 +28,9 @@ class BaseModel:
             name: model name
             id: model id
         """
-        self.my_number = my_number
-        self.name = name
-        self.id = self.__class__.id
+        if kwargs is not None:
+            if "id" in kwargs:
+                self.id
         
     def __str__(self):
         """ string format of the model """
