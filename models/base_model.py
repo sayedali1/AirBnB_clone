@@ -9,14 +9,14 @@ serialization and deserialization of your future instances
 
 
 class BaseModel:
-    """ 
+    """
     this class defines all common attributes/methods for other classes
-    
+
     Attributes:
         id (str) : public ,generate unique id
         create_at : assign with the current datetime
     """
-    
+
     id = str(uuid.uuid4())
     create_at = datetime.now()
 
@@ -40,20 +40,22 @@ class BaseModel:
             if "update_at" in kwargs:
                 self.update_at = kwargs["update_at"]
         else:
-            self.id = self.__class__.id 
+            self.id = self.__class__.id
             self.create_at = self.__class__.create_at
-        
+
     def __str__(self):
         """ string format of the model """
-        return "[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return "[{:s}] ({:s}) {}".format(self.__class__.__name__,
+                                         self.id,
+                                         self.__dict__)
+
 
 if __name__ == '__main__':
+
     from base_model import BaseModel
-    
+
     my_model = BaseModel()
     my_model.name = "My_First_Model"
     my_model.my_number = 89
-    
+
     print(my_model)
-   
-    
