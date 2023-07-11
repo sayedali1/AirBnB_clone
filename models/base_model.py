@@ -20,7 +20,7 @@ class BaseModel:
     id = str(uuid.uuid4())
     create_at = datetime.now()
 
-    def __init__(self, my_number=None, name=None,):
+    def __init__(self, *args, **kwargs):
         """
         initialition
         Attribures:
@@ -28,20 +28,32 @@ class BaseModel:
             name: model name
             id: model id
         """
-        self.my_number = my_number
-        self.name = name
-        self.id = self.__class__.id
+        if kwargs:
+            if "my_number" in kwargs:
+                self.my_number = kwargs["my_number"]
+            if "name" in kwargs:
+                self.name = kwargs["name"]
+            if "id" in kwargs:
+                self.id = kwargs["id"]
+            if "create_at" in kwargs:
+                self.create_at = kwargs["create_at"]
+            if "update_at" in kwargs:
+                self.update_at = kwargs["update_at"]
+        else:
+            self.id = self.__class__.id 
+            self.create_at = self.__class__.create_at
         
     def __str__(self):
         """ string format of the model """
         return "[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id, self.__dict__)
 
-""" if __name__ == '__main__':
+if __name__ == '__main__':
     from base_model import BaseModel
     
-    model = BaseModel()
-    model.name = "sayed"
-    model.my_number = 9
-    print(model)
+    my_model = BaseModel()
+    my_model.name = "My_First_Model"
+    my_model.my_number = 89
+    
+    print(my_model)
    
-     """
+    
