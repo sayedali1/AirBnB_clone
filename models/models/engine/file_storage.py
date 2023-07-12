@@ -5,7 +5,7 @@ model to covert dict to a json and store in file
 """
 
 
-class FileStorge:
+class FileStoarge:
     """  
     that serializes instances to a JSON file and deserializes JSON file to instances
     Attributes:
@@ -21,8 +21,9 @@ class FileStorge:
         return self.__class__.__objects
 
     def new(self, obj):
-        """ sets in __objects """
-        self.__class__.__objects[obj.__class__.__name__.id] = obj
+        """Sets in __objects the obj with key <obj class name>.id."""
+        key = obj.__class__.__name__ + "." + str(obj.id)
+        self.__objects[key] = obj
 
     def save(self):
         """ serializes __objects to the JSON file """
