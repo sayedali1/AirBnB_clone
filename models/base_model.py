@@ -1,4 +1,4 @@
-"""#!/usr/bin/python3"""
+#!/usr/bin/python3
 import uuid
 from datetime import datetime
 
@@ -18,8 +18,8 @@ class BaseModel:
     """
 
     id = str(uuid.uuid4())
-    create_at = datetime.now()
-    update_at = datetime.now()
+    created_at = datetime.now()
+    updated_at = datetime.now()
 
     def __init__(self, *args, **kwargs):
         """
@@ -36,24 +36,24 @@ class BaseModel:
                 self.name = kwargs["name"]
             if "id" in kwargs:
                 self.id = kwargs["id"]
-            if "create_at" in kwargs:
-                self.create_at = kwargs["create_at"]
-            if "update_at" in kwargs:
-                self.update_at = kwargs["update_at"]
+            if "created_at" in kwargs:
+                self.created_at = datetime.strptime(kwargs["created_at"],'%Y-%m-%dT%H:%M:%S.%f')
+            if "updated_at" in kwargs:
+                self.updated_at = datetime.strptime(kwargs["updated_at"],'%Y-%m-%dT%H:%M:%S.%f')
         else:
             self.id = self.__class__.id
-            self.create_at = self.__class__.create_at
+            self.created_at = self.__class__.created_at
     
     def save(self):
         """updates the public instance attribute updated_at with the current datetime"""
-        self.update_at - datetime.now()
+        self.updated_at - datetime.now()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values of __dict__ of the instance:"""
         obj_dict = self.__dict__.copy()
         obj_dict['__class__'] = self.__class__.__name__
-        obj_dict['create_at'] = self.create_at.isoformat()
-        obj_dict['update_at'] = self.update_at.isoformat()
+        obj_dict['created_at'] = self.created_at.isoformat()
+        obj_dict['updated_at'] = self.updated_at.isoformat()
         return obj_dict
 
     def __str__(self):
@@ -71,11 +71,19 @@ if __name__ == '__main__':
     my_model.name = "My_First_Model"
     my_model.my_number = 89
 
-    print(my_model)
+    """ print(my_model) """
     my_model.save()
-    print(my_model)
+    """ print(my_model) """
     my_model_json = my_model.to_dict()
     print(my_model_json)
     print("JSON of my_model:")
     for key in my_model_json.keys():
         print("\t{}: ({}) - {}".format(key, type(my_model_json[key]), my_model_json[key]))
+    print("--")
+    my_new_model = BaseModel(**my_model_json)
+    print(my_new_model.id)
+    print(my_new_model)
+    print(type(my_new_model.created_at))
+
+    print("--")
+    print(my_model is my_new_model)
