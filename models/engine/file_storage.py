@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import json
 from models.base_model import BaseModel
+from models.user import User
 
 """ 
 model to covert dict to a json and store in file
@@ -17,7 +18,11 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-    class_dict = {"BaseModel": BaseModel}
+    class_dict = {
+        "BaseModel": BaseModel,
+        "User": User,
+    }
+
     def all(self):
         """ returns the dictionary __objects """
         return self.__objects
