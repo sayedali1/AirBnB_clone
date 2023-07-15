@@ -30,28 +30,35 @@ class BaseModel:
             updated_at
         """
         if kwargs:
-           for key, value in kwargs.items():
-            if "created_at" in key:
-                self.created_at = datetime.strptime(kwargs["created_at"],'%Y-%m-%dT%H:%M:%S.%f')
-            elif "updated_at" in key:
-                self.updated_at = datetime.strptime(kwargs["updated_at"],'%Y-%m-%dT%H:%M:%S.%f')
-            elif "__class__" in key:
-                pass
-            else:
-                setattr(self, key, value)
+            for key, value in kwargs.items():
+                if "created_at" in key:
+                    self.created_at = datetime.strptime(kwargs["created_at"],
+                                                        '%Y-%m-%dT%H:%M:%S.%f')
+                elif "updated_at" in key:
+                    self.updated_at = datetime.strptime(kwargs["updated_at"],
+                                                        '%Y-%m-%dT%H:%M:%S.%f')
+                elif "__class__" in key:
+                    pass
+                else:
+                    setattr(self, key, value)
         else:
             self.id = self.id
-            self.created_at = self.created_at   
+            self.created_at = self.created_at
             self.updated_at = self.updated_at
             models.storage.new(self)
 
     def save(self):
-        """updates the public instance attribute updated_at with the current datetime"""
+        """
+        updates the public instance attribute
+        updated_at with the current datetime
+        """
         self.updated_at = datetime.now()
         models.storage.save()
-        
+
     def to_dict(self):
-        """returns a dictionary containing all keys/values of __dict__ of the instance:"""
+        """returns a dictionary containing all
+        keys/values of __dict__ of the instance:
+        """
         obj_dict = self.__dict__.copy()
         obj_dict['__class__'] = self.__class__.__name__
         obj_dict['created_at'] = self.created_at.isoformat()
@@ -63,5 +70,3 @@ class BaseModel:
         return "[{:s}] ({:s}) {}".format(self.__class__.__name__,
                                          self.id,
                                          self.__dict__)
-
-    
