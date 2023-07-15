@@ -3,8 +3,9 @@
 import unittest
 from models.base_model import BaseModel
 
+
 class TestBaseModel(unittest.TestCase):
-    
+
     @classmethod
     def setUpClass(cls):
         cls.my_model = BaseModel()
@@ -16,7 +17,8 @@ class TestBaseModel(unittest.TestCase):
 
     def test_save(self):
         self.my_model.save()
-        self.assertNotEqual(self.my_model.created_at, self.my_model.updated_at)
+        self.assertNotEqual(self.my_model.created_at,
+                            self.my_model.updated_at)
 
     def test_to_dict(self):
         dic = self.my_model.to_dict()
@@ -28,11 +30,12 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsNotNone(self.my_model.__doc__)
         self.assertIsNotNone(self.my_model.save.__doc__)
         self.assertIsNotNone(self.my_model.to_dict.__doc__)
-        
+
     def test_attribute(self):
         self.assertTrue(hasattr(BaseModel, "__init__"))
         self.assertTrue(hasattr(BaseModel, "save"))
         self.assertTrue(hasattr(BaseModel, "to_dict"))
+
 
 if __name__ == "__main__":
     unittest.main()
