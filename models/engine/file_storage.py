@@ -2,6 +2,11 @@
 import json
 from models.base_model import BaseModel
 from models.user import User
+from models.state import State
+from models.review import Review
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
 
 """ 
 model to covert dict to a json and store in file
@@ -21,6 +26,11 @@ class FileStorage:
     class_dict = {
         "BaseModel": BaseModel,
         "User": User,
+        "State": State,
+        "Review": Review,
+        "Amenity": Amenity,
+        "City": City,
+        "Place": Place
     }
 
     def all(self):
@@ -35,7 +45,6 @@ class FileStorage:
 
     def save(self):
         """ serializes __objects to the JSON file """
-        """ print(self.__class__.__objects) """
         new_dict = {}
         for key, obj in self.__objects.items():
             new_dict[key] = obj.to_dict()
