@@ -92,7 +92,19 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print([str(obj) for obj in objects.values() if obj.__class__.__name__ == line])
                 
- 
+    def do_count(self, line):
+        """Prints the number of instances of a class"""
+        if not line:
+            print("** class name missing **")
+            return
+        class_name = line.split()[0]
+        if class_name not in class_dict:
+            print("** class doesn't exist **")
+            return
+        objects = storage.all(class_name)
+        count = len(objects)
+        print (count)
+
     def do_update(self, line):
         """Update if given exact object, exact attribute"""
         args = line.split()
