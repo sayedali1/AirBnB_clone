@@ -8,18 +8,20 @@ from models.amenity import Amenity
 from models.city import City
 from models.place import Place
 
-""" 
+"""
 model to covert dict to a json and store in file
 """
 
+
 class FileStorage:
-    """  
-    that serializes instances to a JSON file and deserializes JSON file to instances
+    """
+    that serializes instances to a JSON file
+    and deserializes JSON file to instances
     Attributes:
     __file_path: private attribute that have the path of the json file
     __objects: private attribute that contain the dic of instance
     """
-    
+
     __file_path = "file.json"
     __objects = {}
 
@@ -39,7 +41,6 @@ class FileStorage:
 
     def new(self, obj):
         """Sets in __objects the obj with key <obj class name>.id."""
-       
         key = obj.__class__.__name__ + "." + str(obj.id)
         self.__objects[key] = obj
 
@@ -59,5 +60,5 @@ class FileStorage:
             for k, v in new_obj.items():
                 obj = self.class_dict[v["__class__"]](**v)
                 self.__objects[k] = obj
-        except FileNotFoundError :
+        except FileNotFoundError:
             pass

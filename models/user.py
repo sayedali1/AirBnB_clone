@@ -3,8 +3,10 @@
 from models.base_model import BaseModel
 
 """ class user """
+
+
 class User(BaseModel):
-    """ 
+    """
     Attributes:
     email
     password

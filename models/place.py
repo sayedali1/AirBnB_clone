@@ -3,12 +3,14 @@
 from models.base_model import BaseModel
 
 """ class Place """
+
+
 class Place(BaseModel):
-    """ 
+    """
     Attributes:
     city_id: string - it will be the City.id
     user_id: string - it will be the User.id
-    name: string 
+    name: string
     description: string - empty string
     number_rooms: integer - 0
     number_bathrooms: integer - 0
