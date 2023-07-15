@@ -8,7 +8,7 @@ serialization and deserialization of your future instances
 """
 
 
-class BaseModel:
+class BaseModel():
     """
     this class defines all common attributes/methods for other classes
 
@@ -16,10 +16,6 @@ class BaseModel:
         id (str) : public ,generate unique id
         create_at : assign with the current datetime
     """
-
-    id = str(uuid.uuid4())
-    created_at = datetime.now()
-    updated_at = datetime.now()
 
     def __init__(self, *args, **kwargs):
         """
@@ -31,21 +27,27 @@ class BaseModel:
         """
         if kwargs:
             for key, value in kwargs.items():
-                if "created_at" in key:
+                if "created_at" == key:
                     self.created_at = datetime.strptime(kwargs["created_at"],
                                                         '%Y-%m-%dT%H:%M:%S.%f')
-                elif "updated_at" in key:
+                elif "updated_at" ==  key:
                     self.updated_at = datetime.strptime(kwargs["updated_at"],
                                                         '%Y-%m-%dT%H:%M:%S.%f')
-                elif "__class__" in key:
+                elif "__class__" == key:
                     pass
                 else:
                     setattr(self, key, value)
         else:
-            self.id = self.id
-            self.created_at = self.created_at
-            self.updated_at = self.updated_at
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
             models.storage.new(self)
+
+    def __str__(self):
+        """ string format of the model """
+        return "[{}] ({}) {}".format(self.__class__.__name__,
+                                         self.id,
+                                         self.__dict__)
 
     def save(self):
         """
@@ -65,8 +67,4 @@ class BaseModel:
         obj_dict['updated_at'] = self.updated_at.isoformat()
         return obj_dict
 
-    def __str__(self):
-        """ string format of the model """
-        return "[{:s}] ({:s}) {}".format(self.__class__.__name__,
-                                         self.id,
-                                         self.__dict__)
+    
