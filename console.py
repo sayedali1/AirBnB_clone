@@ -19,6 +19,7 @@ class_dict = {
         "City": City,
         "Place": Place
     }
+
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
   
@@ -122,6 +123,15 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** no instance found **")
     
+    def default(self, line):
+        args = line.split(".")
+        if "all" in args[1]:
+            self.do_all(args[0])
+        elif "show" in args[1]:
+            id = args[1].split("\"")[1]
+            self.do_show(args[0] + " " + id)
+
+
 
     def emptyline(self):
         """ override the empty line """
