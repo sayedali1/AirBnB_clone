@@ -10,9 +10,7 @@ serialization and deserialization of your future instances
 
 
 class BaseModel():
-    """
-    this class defines all common attributes/methods for other classes
-    """
+    """this class defines all common attributes/methods for other classes"""
 
     def __init__(self, *args, **kwargs):
         """
