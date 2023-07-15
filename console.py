@@ -4,11 +4,26 @@ import cmd
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
+from models.state import State
+from models.review import Review
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
 
+class_dict = {
+        "BaseModel": BaseModel,
+        "User": User,
+        "State": State,
+        "Review": Review,
+        "Amenity": Amenity,
+        "City": City,
+        "Place": Place
+    }
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
   
     def do_create(self, line):
+        """ create new obj """
         if not line:
             print("** class name missing **")
             return
@@ -26,9 +41,13 @@ class HBNBCommand(cmd.Cmd):
         if not line_args:
             print("** class name missing **")
             return
+        
+        class_name = line_args[0]
+        if class_name not in class_dict:
+            print("** class doesn't exist **")
+            return
+        obj_id = line_args[1]
         try:
-            class_name = line_args[0]
-            obj_id = line_args[1]
             obj = storage.all().get(f"{class_name}.{obj_id}")
             if obj:
                 print(obj)
@@ -36,17 +55,20 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
         except IndexError:
             print("** instance id missing **")
-        except NameError:
-            print("** class doesn't exist **")    
+         
     
     def do_destroy(self, line):
+        """ destroy obj """
         line_args = line.split()
         if not line_args:
             print("** class name missing **")
             return
+        class_name = line_args[0]
+        if class_name not in class_dict:
+            print("** class doesn't exist **")
+            return
+        obj_id = line_args[1]
         try:
-            class_name = line_args[0]
-            obj_id = line_args[1]
             obj = storage.all().get(f"{class_name}.{obj_id}")
             if obj:
                 del storage.all()[f"{class_name}.{obj_id}"]
@@ -55,48 +77,51 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
         except IndexError:
             print("** instance id missing **")
-        except NameError:
-            print("** class doesn't exist **")
 
     def do_all(self, line):
         """Prints all string representation of all instances
         based or not on the class name"""
         objects = storage.all()
+    
         if not line:
             print([str(obj) for obj in objects.values()])
         else:
-            try:
-                class_name = line
-                print([str(obj) for obj in objects.values() if obj.__class__.__name__ == class_name])
-            except NameError:
+            if line not in class_dict:
                 print("** class doesn't exist **")
+            else:
+                print([str(obj) for obj in objects.values() if obj.__class__.__name__ == line])
+                
  
     def do_update(self, line):
         """Update if given exact object, exact attribute"""
         args = line.split()
+
         if not args:
             print("** class name missing **")
             return
-        try:
-            class_name = args[0]
-            obj_id = args[1]
-            attr_name = args[2]
-            attr_value = args[3]
-            obj = storage.all().get(f"{class_name}.{obj_id}")
-            if obj:
-                setattr(obj, attr_name, attr_value)
-                obj.save()
-            else:
-                print("** no instance found **")
-        except IndexError:
-            print("** instance id missing **")
-        except NameError:
+        class_name = args[0]
+        if class_name not in class_dict:
             print("** class doesn't exist **")
-        except AttributeError:
+            return
+        obj_id = args[1]
+        if obj_id == "":
+            print("** instance id missing **")
+            return
+        attr_name = args[2]
+        if attr_name == "":
             print("** attribute name missing **")
-        except ValueError:
+            return
+        attr_value = args[3]
+        if attr_value == "":
             print("** value missing **")
-        
+
+        obj = storage.all().get(f"{class_name}.{obj_id}")
+        if obj:
+            setattr(obj, attr_name, attr_value)
+            obj.save()
+        else:
+            print("** no instance found **")
+    
 
     def emptyline(self):
         """ override the empty line """
@@ -114,3 +139,4 @@ class HBNBCommand(cmd.Cmd):
        
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
+    
