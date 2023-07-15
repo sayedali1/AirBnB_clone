@@ -144,7 +144,7 @@ class HBNBCommand(cmd.Cmd):
             args = line.split(".")
         else:
             return super().default(line)
-        
+
         if "all" in args[1]:
             self.do_all(args[0])
         elif "count" in args[1]:
