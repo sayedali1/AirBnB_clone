@@ -25,23 +25,21 @@ class BaseModel:
         """
         initialition
         Attribures:
-            my_number: model number
-            name: model name
+            created_at
             id: model id
+            updated_at
         """
         if kwargs:
-            if "my_number" in kwargs:
-                self.my_number = kwargs["my_number"]
-            if "name" in kwargs:
-                self.name = kwargs["name"]
-            if "id" in kwargs:
-                self.id = kwargs["id"]
-            if "created_at" in kwargs:
+           for key, value in kwargs.items():
+            if "created_at" in key:
                 self.created_at = datetime.strptime(kwargs["created_at"],'%Y-%m-%dT%H:%M:%S.%f')
-            if "updated_at" in kwargs:
+            elif "updated_at" in key:
                 self.updated_at = datetime.strptime(kwargs["updated_at"],'%Y-%m-%dT%H:%M:%S.%f')
+            elif "__class__" in key:
+                pass
+            else:
+                setattr(self, key, value)
         else:
-            
             self.id = self.id
             self.created_at = self.created_at   
             self.updated_at = self.updated_at
@@ -55,7 +53,6 @@ class BaseModel:
     def to_dict(self):
         """returns a dictionary containing all keys/values of __dict__ of the instance:"""
         obj_dict = self.__dict__.copy()
-        
         obj_dict['__class__'] = self.__class__.__name__
         obj_dict['created_at'] = self.created_at.isoformat()
         obj_dict['updated_at'] = self.updated_at.isoformat()
