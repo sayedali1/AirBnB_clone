@@ -20,18 +20,6 @@ class HBNBCommand(cmd.Cmd):
     """ consle class """
     prompt = "(hbnb)"
 
-    """ 
-        class_dict = {
-        "BaseModel": BaseModel,
-        "User": User,
-        "State": State,
-        "Review": Review,
-        "Amenity": Amenity,
-        "City": City,
-        "Place": Place
-    } 
-    """
-
     def do_quit(self, line):
         """ Quit command to exit the program """
         return True
@@ -45,8 +33,6 @@ class HBNBCommand(cmd.Cmd):
         """ override the empty line """
         self.lastcmd = ""
         return super().emptyline()
-
-    
 
 
 if __name__ == "__main__":
