@@ -29,6 +29,7 @@ class HBNBCommand(cmd.Cmd):
         "City": City,
         "Place": Place
     }
+
     def do_create(self, line):
         """ create new obj """
         if not line:
