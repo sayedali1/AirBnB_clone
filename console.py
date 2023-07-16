@@ -63,7 +63,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         class_name = line_args[0]
-        if class_name not in class_dict:
+        if class_name not in HBNBCommand.class_dict:
             print("** class doesn't exist **")
             return
         obj_id = line_args[1]
@@ -83,7 +83,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         class_name = line_args[0]
-        if class_name not in class_dict:
+        if class_name not in HBNBCommand.class_dict:
             print("** class doesn't exist **")
             return
         obj_id = line_args[1]
@@ -105,7 +105,7 @@ class HBNBCommand(cmd.Cmd):
         if not line:
             print([str(obj) for obj in objects.values()])
         else:
-            if line not in class_dict:
+            if line not in HBNBCommand.class_dict:
                 print("** class doesn't exist **")
             else:
                 print([str(obj) for obj in objects.values()
@@ -117,7 +117,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         class_name = line.split()[0]
-        if class_name not in class_dict:
+        if class_name not in HBNBCommand.class_dict:
             print("** class doesn't exist **")
             return
         objects = storage.all(class_name)
@@ -132,7 +132,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         class_name = args[0]
-        if class_name not in class_dict:
+        if class_name not in HBNBCommand.class_dict:
             print("** class doesn't exist **")
             return
         obj_id = args[1]
