@@ -1,31 +1,35 @@
 #!/usr/bin/python3
-
+"""
+Entry to command interpreter
+"""
 import cmd
-from models.base_model import BaseModel
 from models import storage
+from models.base_model import BaseModel
 from models.user import User
 from models.state import State
-from models.review import Review
-from models.amenity import Amenity
 from models.city import City
+from models.amenity import Amenity
 from models.place import Place
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
-    """ consle class """
+    """
+    Entry to command interpreter
+    """
     prompt = "(hbnb)"
 
     def do_EOF(self, line):
-        """ exit the program when we press contrl-D """
+        """Exit on Ctrl-D"""
         print()
         return True
-    
+
     def do_quit(self, line):
-        """ Quit command to exit the program """
+        """Exit on quit"""
         return True
 
     def emptyline(self):
-        """ override the empty line """
+        """Overwrite default behavior to repeat last cmd"""
         pass
 
 
