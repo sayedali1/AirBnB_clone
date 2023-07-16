@@ -34,8 +34,7 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         """ override the empty line """
-        self.lastcmd = ""
-        return super().emptyline()
+        pass
 
     def do_quit(self, line):
         """ Quit command to exit the program """
