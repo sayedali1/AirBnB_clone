@@ -3,6 +3,7 @@
 Entry to command interpreter
 """
 import cmd
+import json
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -66,8 +67,8 @@ class HBNBCommand(cmd.Cmd):
         if class_name not in HBNBCommand.class_dict:
             print("** class doesn't exist **")
             return
-        obj_id = line_args[1]
         try:
+            obj_id = line_args[1]
             obj = storage.all().get(f"{class_name}.{obj_id}")
             if obj:
                 print(obj)
@@ -86,8 +87,9 @@ class HBNBCommand(cmd.Cmd):
         if class_name not in HBNBCommand.class_dict:
             print("** class doesn't exist **")
             return
-        obj_id = line_args[1]
+
         try:
+            obj_id = line_args[1]
             obj = storage.all().get(f"{class_name}.{obj_id}")
             if obj:
                 del storage.all()[f"{class_name}.{obj_id}"]
@@ -113,15 +115,11 @@ class HBNBCommand(cmd.Cmd):
 
     def do_count(self, line):
         """Prints the number of instances of a class"""
-        if not line:
-            print("** class name missing **")
-            return
-        class_name = line.split()[0]
-        if class_name not in HBNBCommand.class_dict:
-            print("** class doesn't exist **")
-            return
-        objects = storage.all(class_name)
-        count = len(objects)
+        count = 0
+        for key in storage.all().keys():
+            class_name, instance_id = key.split(".")
+            if line == class_name:
+                count += 1
         print(count)
 
     def do_update(self, line):
@@ -135,25 +133,38 @@ class HBNBCommand(cmd.Cmd):
         if class_name not in HBNBCommand.class_dict:
             print("** class doesn't exist **")
             return
-        obj_id = args[1]
-        if obj_id == "":
-            print("** instance id missing **")
+        if len(args) < 2:
+            print ("** instance id missing **")
             return
-        attr_name = args[2]
-        if attr_name == "":
+        obj_id = args[1]
+        
+        if len(args) < 3:
             print("** attribute name missing **")
             return
-        attr_value = args[3]
-        if attr_value == "":
+        attr_name = args[2]
+
+        if len(args) < 4:
             print("** value missing **")
+            return
+        attr_value = args[3]
 
-        obj = storage.all().get(f"{class_name}.{obj_id}")
-        if obj:
-            setattr(obj, attr_name, attr_value)
-            obj.save()
-        else:
+        key = f"{class_name}.{obj_id}"
+        if key not in storage.all():
             print("** no instance found **")
+        else:
+            obj = storage.all()[key]
+            attr_name = json.loads(attr_name)
 
+            attributes = storage.attributes()[class_name]
+            # print(attributes)
+            for key, value in attr_name.items():
+                if key in attributes:
+                    # print(key)
+                    value = attributes[key](value)
+                    # print(attributes[key])
+                    setattr(obj, key, value)
+                    storage.save()  
+        
     def default(self, line):
         if "." in line:
             args = line.split(".")
