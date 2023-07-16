@@ -11,22 +11,17 @@ from models.city import City
 from models.place import Place
 
 
-"""
-class for the console funs to test the our model
-"""
-
-
 class HBNBCommand(cmd.Cmd):
     """ consle class """
     prompt = "(hbnb)"
 
-    def do_quit(self, line):
-        """ Quit command to exit the program """
-        return True
-
     def do_EOF(self, line):
         """ exit the program when we press contrl-D """
         print()
+        return True
+    
+    def do_quit(self, line):
+        """ Quit command to exit the program """
         return True
 
     def emptyline(self):
