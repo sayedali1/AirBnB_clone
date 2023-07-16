@@ -31,8 +31,7 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         """ override the empty line """
-        self.lastcmd = ""
-        return super().emptyline()
+        pass
 
 
 if __name__ == "__main__":
