@@ -25,6 +25,7 @@ class for the console funs to test the our model
 
 
 class HBNBCommand(cmd.Cmd):
+    """ consle class """
     prompt = "(hbnb) "
 
     def do_create(self, line):
