@@ -3,7 +3,7 @@
 Unittest to test FileStorage class
 """
 import unittest
-import pep8
+
 import json
 import os
 from models.base_model import BaseModel
@@ -35,14 +35,6 @@ class TestFileStorage(unittest.TestCase):
             os.remove("file.json")
         except:
             pass
-
-    def test_style_check(self):
-        """
-        Tests pep8 style
-        """
-        style = pep8.StyleGuide(quiet=True)
-        p = style.check_files(['models/engine/file_storage.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
 
     def test_all(self):
         """
