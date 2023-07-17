@@ -191,7 +191,6 @@ class HBNBCommand(cmd.Cmd):
             key = key.strip('"')
             value = attrs[2]
             value = value.strip(')')
-            value = value.split("\"")[1]
             self.do_update(args[0] + " " + id + " " + key + " " + value)
         else:
             return super().default(line)
