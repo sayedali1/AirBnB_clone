@@ -182,16 +182,16 @@ class HBNBCommand(cmd.Cmd):
             id = args[1].split("\"")[1]
             self.do_destroy(args[0] + " " + id)
         elif "update" in args[1]:
-            args = args[1].split(',')
-            id = args[0].strip("'")
-            id = id.strip('"')
-            key = args[1].strip(',')
+            attrs = args[1].split(",")
+            id = attrs[0].split("\"")[1]
+            key = attrs[1].strip(",")
+            key = key.strip("\"")
             key = key.strip(' ')
             key = key.strip("'")
             key = key.strip('"')
-            value = args[2]
-            value = value.strip(' ')
+            value = attrs[2]
             value = value.strip(')')
+            value = value.split("\"")[1]
             self.do_update(args[0] + " " + id + " " + key + " " + value)
         else:
             return super().default(line)
