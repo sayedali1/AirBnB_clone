@@ -79,10 +79,11 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, line):
         """ destroy obj """
-        line_args = line.split()
-        if not line_args:
+    
+        if len(line) == 0:
             print("** class name missing **")
             return
+        line_args = line.split()
         class_name = line_args[0]
         if class_name not in HBNBCommand.class_dict:
             print("** class doesn't exist **")
