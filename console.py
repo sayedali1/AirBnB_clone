@@ -134,10 +134,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         if len(args) < 2:
-            print ("** instance id missing **")
+            print("** instance id missing **")
             return
         obj_id = args[1]
-        
+
         if len(args) < 3:
             print("** attribute name missing **")
             return
@@ -163,37 +163,41 @@ class HBNBCommand(cmd.Cmd):
                     value = attributes[key](value)
                     # print(attributes[key])
                     setattr(obj, key, value)
-                    storage.save()  
-        
+                    storage.save()
+
     def default(self, line):
-        if "." in line:
-            args = line.split(".")
-        else:
-            return super().default(line)
-        
-        if "all" in args[1]:
-            self.do_all(args[0])
-        elif "count" in args[1]:
-            self.do_count(args[0])
-        elif "show" in args[1]:
-            id = args[1].split("\"")[1]
-            self.do_show(args[0] + " " + id)
-        elif "destroy" in args[1]:
-            id = args[1].split("\"")[1]
-            self.do_destroy(args[0] + " " + id)
-        elif "update" in args[1]:
-            attrs = args[1].split(",")
-            id = attrs[0].split("\"")[1]
-            key = attrs[1].strip(",")
-            key = key.strip("\"")
-            key = key.strip(' ')
-            key = key.strip("'")
-            key = key.strip('"')
-            value = attrs[2]
-            value = value.strip(')')
-            self.do_update(args[0] + " " + id + " " + key + " " + value)
-        else:
-            return super().default(line)
+
+        args = line.split(".")
+        if len(args) == 1:
+            print("*** Unknown syntax: {}".format(line))
+            return
+        try:
+            if "all" in args[1]:
+                self.do_all(args[0])
+            elif "count" in args[1]:
+                self.do_count(args[0])
+            elif "show" in args[1]:
+                id = args[1].split("\"")[1]
+                self.do_show(args[0] + " " + id)
+            elif "destroy" in args[1]:
+                id = args[1].split("\"")[1]
+                self.do_destroy(args[0] + " " + id)
+            elif "update" in args[1]:
+                attrs = args[1].split(",")
+                id = attrs[0].split("\"")[1]
+                key = attrs[1].strip(",")
+                key = key.strip("\"")
+                key = key.strip(' ')
+                key = key.strip("'")
+                key = key.strip('"')
+                value = attrs[2]
+                value = value.strip(')')
+                self.do_update(args[0] + " " + id + " " + key + " " + value)
+            else:
+                print("*** Unknown syntax: {}".format(line))
+        except IndexError:
+            print("*** Unknown syntax: {}".format(line))
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
