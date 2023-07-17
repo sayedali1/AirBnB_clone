@@ -79,11 +79,10 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, line):
         """ destroy obj """
-    
-        if len(line) == 0:
+        line_args = line.split()
+        if not line_args:
             print("** class name missing **")
             return
-        line_args = line.split()
         class_name = line_args[0]
         if class_name not in HBNBCommand.class_dict:
             print("** class doesn't exist **")
@@ -91,9 +90,9 @@ class HBNBCommand(cmd.Cmd):
 
         try:
             obj_id = line_args[1]
-            obj = "{}.{}".format(class_name, obj_id)
-            if obj in storage.all().keys():
-                del storage.all()[obj]
+            obj = storage.all().get(f"{class_name}.{obj_id}")
+            if obj:
+                del storage.all()[f"{class_name}.{obj_id}"]
                 storage.save()
             else:
                 print("** no instance found **")
@@ -181,7 +180,7 @@ class HBNBCommand(cmd.Cmd):
             self.do_show(args[0] + " " + id)
         elif "destroy" in args[1]:
             id = args[1].split("\"")[1]
-            self.do_show(args[0] + " " + id)
+            self.do_destroy(args[0] + " " + id)
         elif "update" in args[1]:
             attrs = args[1].split("\"")
             id = attrs[1]
