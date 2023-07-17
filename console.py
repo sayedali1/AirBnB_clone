@@ -92,7 +92,7 @@ class HBNBCommand(cmd.Cmd):
         try:
             obj_id = line_args[1]
             obj = storage.all().get(f"{class_name}.{obj_id}")
-            if obj:
+            if obj in storage.all().keys():
                 del storage.all()[f"{class_name}.{obj_id}"]
                 storage.save()
             else:
