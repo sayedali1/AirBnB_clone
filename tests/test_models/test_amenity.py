@@ -34,5 +34,6 @@ class TestAmenity(unittest.TestCase):
     def test_to_dict(self):
         self.assertEqual('to_dict' in dir(self.amenity1), True)
 
+
 if __name__ == "__main__":
     unittest.main()
